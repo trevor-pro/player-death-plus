@@ -21,11 +21,12 @@ public class Config
             .comment("'none' - No effect on death")
             .comment("'ban' - Bans a player on death, configurable to be a timed ban or a permanent ban")
             .comment("'head-ban' - The same as ban, but drops a head on death that can be used to unban the player")
+            .comment("'spectator' - Sets the player's gamemode to spectator upon death")
             .define("method", DEFAULT_DEATH_HANDLER_KEY);
 
     private static final ModConfigSpec.LongValue BAN_DURATION_HOURS_CONFIG = BUILDER
             .comment("The number of hours to ban a player for")
-            .comment("Only applicable if method chosen is ban of head-ban")
+            .comment("Only applicable if method chosen is ban or head-ban")
             .comment("Setting this number to zero (0) will result in a permanent ban")
             .defineInRange("ban-hours", DEFAULT_BAN_DURATION_HOURS, 0, Long.MAX_VALUE);
 

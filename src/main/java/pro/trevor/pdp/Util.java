@@ -1,11 +1,13 @@
 package pro.trevor.pdp;
 
 import com.mojang.authlib.GameProfile;
+import net.minecraft.client.telemetry.TelemetryProperty;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.server.players.UserBanList;
 import net.minecraft.server.players.UserBanListEntry;
 import net.minecraft.util.Unit;
@@ -17,6 +19,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.component.ResolvableProfile;
+import net.minecraft.world.level.GameType;
 
 import java.util.Date;
 import java.util.List;
@@ -129,5 +132,12 @@ public class Util {
             ModMain.LOGGER.warn("TTL is not set!");
             return 0;
         }
+    }
+
+
+    public static GameType setGameMode(ServerPlayer player, GameType gameMode) {
+        GameType previousGameMode = player.gameMode.getGameModeForPlayer();
+        player.gameMode.changeGameModeForPlayer(gameMode);
+        return previousGameMode;
     }
 }

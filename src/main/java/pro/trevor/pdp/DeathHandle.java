@@ -20,7 +20,7 @@ public class DeathHandle {
 
     public static void registerSelf() {
         NeoForge.EVENT_BUS.register(DeathHandle.class);
-        registerDeathHandles(None.class, Ban.class, HeadBan.class);
+        registerDeathHandles(None.class, Ban.class, HeadBan.class, Spectator.class);
     }
 
     public static <T extends Handle> void registerDeathHandle(Class<T> handleClass) {
