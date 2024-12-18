@@ -28,7 +28,7 @@ public class Config
             .comment("The number of hours to ban a player for")
             .comment("Only applicable if method chosen is ban or head-ban")
             .comment("Setting this number to zero (0) will result in a permanent ban")
-            .defineInRange("ban-hours", DEFAULT_BAN_DURATION_HOURS, 0, Long.MAX_VALUE);
+            .defineInRange("ban-hours", DEFAULT_BAN_DURATION_HOURS, 0, 876000);
 
     static final ModConfigSpec SPEC = BUILDER.build();
 
@@ -39,5 +39,6 @@ public class Config
     public static void onLoad(final ModConfigEvent event) {
         DEATH_HANDLER_VALUE = DEATH_HANDLER_CONFIG.get();
         BAN_DURATION_HOURS = BAN_DURATION_HOURS_CONFIG.get();
+        DeathHandle.primeDeathHandle(Config.DEATH_HANDLER_VALUE);
     }
 }

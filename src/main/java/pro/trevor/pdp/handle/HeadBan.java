@@ -32,6 +32,11 @@ public class HeadBan implements Handle {
     }
 
     @Override
+    public void unregister() {
+        NeoForge.EVENT_BUS.unregister(HeadBan.class);
+    }
+
+    @Override
     public void handleDeath(Player player, DamageSource source) {
         ItemStack head = Util.getPlayerHeadItemStack(player, "Right-click to unban player", true);
 

@@ -18,22 +18,35 @@ public class DeathHandle {
     // Death handler key -> Player death handle instance
     private static final HashMap<String, Handle> DEATH_HANDLES = new HashMap<>();
 
-    public static void registerSelf() {
+    private static Handle CURRENT_HANDLE = new None();
+
+    public static boolean validateDeathHandlerKey(String key) {
+        return DEATH_HANDLES.containsKey(key);
+    }
+
+    public static void register() {
         NeoForge.EVENT_BUS.register(DeathHandle.class);
         registerDeathHandles(None.class, Ban.class, HeadBan.class, Spectator.class);
+    }
+
+    public static void primeDeathHandle(String key) {
+        Handle newHandle = DEATH_HANDLES.get(key);
+        if (CURRENT_HANDLE != newHandle) {
+            CURRENT_HANDLE.unregister();
+            newHandle.register();
+            CURRENT_HANDLE = newHandle;
+        }
     }
 
     public static <T extends Handle> void registerDeathHandle(Class<T> handleClass) {
         try {
             T handle = handleClass.getDeclaredConstructor().newInstance();
-
             String key = handle.key();
 
             if (DEATH_HANDLES.containsKey(key)) {
                 ModMain.LOGGER.warn("Duplicate handle class name: '{}', overriding with the new value.", key);
             }
 
-            handle.register();
             DEATH_HANDLES.put(key, handle);
         } catch (NoSuchMethodException exception) {
             ModMain.LOGGER.error("Declared handle class '{}' does not have a default constructor", handleClass.getName());
@@ -50,10 +63,6 @@ public class DeathHandle {
         }
     }
 
-    public static boolean validateDeathHandlerKey(String key) {
-        return DEATH_HANDLES.containsKey(key);
-    }
-
     @SubscribeEvent
     public static void onPlayerDeath(LivingDeathEvent event) {
         MinecraftServer server = Util.getServerAndWarnIfNull(event.getEntity());
@@ -64,8 +73,7 @@ public class DeathHandle {
 
         if (event.getEntity() instanceof Player player) {
             if (validateDeathHandlerKey(Config.DEATH_HANDLER_VALUE)) {
-                ModMain.LOGGER.error("Death handler {} was called", Config.DEATH_HANDLER_VALUE);
-                DEATH_HANDLES.get(Config.DEATH_HANDLER_VALUE).handleDeath(player, event.getSource());
+                CURRENT_HANDLE.handleDeath(player, event.getSource());
             } else {
                 ModMain.LOGGER.error("Invalid death handler: {}", Config.DEATH_HANDLER_VALUE);
             }

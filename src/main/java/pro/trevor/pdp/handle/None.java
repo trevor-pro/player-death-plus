@@ -16,6 +16,11 @@ public class None implements Handle {
     }
 
     @Override
+    public void unregister() {
+        // Intentionally left blank
+    }
+
+    @Override
     public void handleDeath(Player player, DamageSource source) {
         // Intentionally left blank
     }

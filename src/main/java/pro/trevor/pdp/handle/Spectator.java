@@ -19,6 +19,11 @@ public class Spectator implements Handle {
     }
 
     @Override
+    public void unregister() {
+        // Intentionally left blank
+    }
+
+    @Override
     public void handleDeath(Player player, DamageSource source) {
         if (player instanceof ServerPlayer serverPlayer) {
             Util.setGameMode(serverPlayer, GameType.SPECTATOR);

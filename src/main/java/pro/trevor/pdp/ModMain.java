@@ -25,11 +25,11 @@ public class ModMain {
     }
 
     @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.DEDICATED_SERVER)
-    public static class ClientModEvents
+    public static class ServerModEvents
     {
         @SubscribeEvent
-        public static void onClientSetup(FMLDedicatedServerSetupEvent event) {
-            DeathHandle.registerSelf();
+        public static void onServerSetup(FMLDedicatedServerSetupEvent event) {
+            DeathHandle.register();
         }
     }
 }

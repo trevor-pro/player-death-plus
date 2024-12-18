@@ -19,6 +19,11 @@ public class Ban implements Handle {
     }
 
     @Override
+    public void unregister() {
+        // Intentionally left blank
+    }
+
+    @Override
     public void handleDeath(Player player, DamageSource source) {
         Util.banPlayerWithMeaningfulDuration(player, "Banned due to dying", Config.BAN_DURATION_HOURS);
 
