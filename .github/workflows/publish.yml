@@ -45,3 +45,6 @@ jobs:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
           github-token: ${{ secrets.GH_TOKEN }}
+
+          # Let the website itself determine the release name
+          name: ""
